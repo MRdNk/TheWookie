@@ -1,3 +1,4 @@
+var GitHubStrategy = require('passport-github').Strategy
 var config = require('./config.json')
 
 module.exports = function setup (passport) {

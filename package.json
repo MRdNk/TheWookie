@@ -10,6 +10,7 @@
     "jade": "*",
     "passport": "0.1.x",
     "passport-github": "0.1.x",
-    "JSONStream": "0.4.x"
+    "JSONStream": "0.4.x",
+    "connect-redis": "1.4.x"
   }
 }

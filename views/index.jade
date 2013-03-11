@@ -3,6 +3,7 @@ extends layout
 block content
   h1= title
   p= user.displayName
+  //- p= isAuthenticated
   p Welcome to #{title}
     each app in apps
       p #{app.name}
