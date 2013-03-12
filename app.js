@@ -65,6 +65,10 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
 app.get('/', routes.index);
 app.get('/json', routes.json);
 
+app.get('/sites', routes.sites)
+
+require('./routes/routy')(app)
+
 // Create an http server and listen on a port.
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
