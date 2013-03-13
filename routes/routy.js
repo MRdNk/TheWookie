@@ -9,11 +9,11 @@ function routy (serviceLocator) {
 
   serviceLocator.register('sites', sites)
 
-  // that.app = app
   postgresWookie({config: config}).sites.selectAll(function (err, data) {
     for(var i=0; i < data.rows.length; i++) {
       serviceLocator.app.get('/' + data.rows[i].name, function (req, res) {
         // res.send('I found it!')
+        var site = fetchSiteByRequestReoute(req);
         res.render('site', {
           title: site.name
         })
@@ -40,10 +40,7 @@ function routy (serviceLocator) {
 
     serviceLocator.app.get('/' + site.name, function (req, res) {
       // res.send('I found a new one')
-      console.log(req.route)
-      var siteName = req.route.path.split('/')[1]
-      console.log(siteName)
-      var site = serviceLocator.sites[siteName]
+      var site = fetchSiteByRequestReoute(req);
       res.render('site', {
         title: site.name
       })
@@ -55,6 +52,12 @@ function routy (serviceLocator) {
     postgresWookie({config: config}).sites.selectAll(function (err, data) {
       res.send('data: ', data.rows || err)
     })
+  }
+
+  function fetchSiteByRequestReoute(req) {
+    var siteName = req.route.path.split('/')[1]
+    var site = serviceLocator.sites[siteName]
+    return site;
   }
 
 }

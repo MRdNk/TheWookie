@@ -22,6 +22,12 @@ exports.index = function (req, res) {
   });
 }
 
+exports.edit = function (req, res) {
+  res.render('edit', {
+    title: 'edit test'
+  })
+}
+
 function applications () {
 
 

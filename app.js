@@ -67,6 +67,8 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
 app.get('/', routes.index);
 app.get('/json', routes.json);
 
+app.get('/edit', routes.edit)
+
 serviceLocator.register('app', app)
 
 var routy = require('./routes/routy')(serviceLocator)

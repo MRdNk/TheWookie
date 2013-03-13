@@ -1,0 +1,12 @@
+extends layout
+
+block head
+  script(src='/ckeditor/ckeditor.js')
+  
+block content
+  div
+    textarea(name='editor1')
+
+  script
+      CKEDITOR.replace( 'editor1' )
+
