@@ -28,19 +28,5 @@ function applications () {
 
 }
 
-function sites (req, res) {
 
-  console.log(req.route)
-
-  var site = {
-      name: req.query.name
-    , created_by_user_id: req.query.user_id
-  }
-
-  postgresWookie({config: config}).sites.insert(site, function (err, data) {
-    res.send('data: ', data || err)
-  })
-
-}
-
-exports.sites = sites
+// exports.sites = sites

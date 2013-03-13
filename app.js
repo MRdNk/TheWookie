@@ -10,6 +10,8 @@ var user = require('./routes/user')
 var http = require('http')
 var path = require('path')
 
+var serviceLocator = require('service-locator').createServiceLocator()
+
 var RedisStore = require('connect-redis')(express)
 
 // Config object setup to move 'sensitive' information outside of anything committed to github
@@ -65,9 +67,14 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
 app.get('/', routes.index);
 app.get('/json', routes.json);
 
-app.get('/sites', routes.sites)
+serviceLocator.register('app', app)
 
-require('./routes/routy')(app)
+var routy = require('./routes/routy')(serviceLocator)
+
+
+
+console.log(app.routes)
+
 
 // Create an http server and listen on a port.
 http.createServer(app).listen(app.get('port'), function(){
