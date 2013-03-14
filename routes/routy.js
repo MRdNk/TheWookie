@@ -23,14 +23,24 @@ function routy (serviceLocator) {
     }
   })
 
-  serviceLocator.app.get('/sites/getAll', getAll)
-  serviceLocator.app.get('/sites/add', addSite)
+  serviceLocator.app.get('/sites/getAll', getAll) // Returns a json of all the sites
+  
+  serviceLocator.app.get('/sites/create', createSite) // get - Form to create a site
+  serviceLocator.app.post('/sites/add', addSite)      // post - Actually creates the site
+
+  function createSite (req, res) {
+
+    res.render('sites/create', {
+      title: 'Create Site'
+    })
+
+  }
 
   function addSite (req, res) {
 
     var site = {
-        name: req.query.name
-      , created_by_user_id: req.query.user_id
+        name: req.body.name
+      , created_by_user_id: req.body.user_id
     }
 
     postgresWookie({config: config}).sites.insert(site, function (err, data) {
@@ -50,7 +60,18 @@ function routy (serviceLocator) {
 
   function getAll (req, res) {
     postgresWookie({config: config}).sites.selectAll(function (err, data) {
-      res.send('data: ', data.rows || err)
+      if (err) res.send('data: ', err)
+      else {
+        var sites = {}
+        for (var i = 0; i < data.rows.length; i++) {
+          var name = data.rows[i].name
+          sites[name] = data.rows[i];
+          sites[name].pages = {index: 'index.html'}
+          sites[name].sites = {people: 'people.html'}
+        }
+        res.send('data: ', sites)
+      }
+      // res.send('data: ', data.rows || err)
     })
   }
 

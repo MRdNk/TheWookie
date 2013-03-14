@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  h1= title
+
+  div
+    form(action='/sites/add', method='POST')#create
+      div
+        label Site name: 
+        input(type='text', name='name')
+        input(type='hidden', value='1', name='user_id')
+      div
+        input(type='submit') Submit

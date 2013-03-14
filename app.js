@@ -73,8 +73,6 @@ serviceLocator.register('app', app)
 
 var routy = require('./routes/routy')(serviceLocator)
 
-
-
 console.log(app.routes)
 
 
