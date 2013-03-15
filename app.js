@@ -68,6 +68,7 @@ app.get('/', routes.index);
 app.get('/json', routes.json);
 
 app.get('/edit', routes.edit)
+// app.get('/a/:b/people', routes.people)
 
 serviceLocator.register('app', app)
 

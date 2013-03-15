@@ -18,6 +18,7 @@ function routy (serviceLocator) {
           title: site.name
         })
       })
+
       var site = data.rows[i]
       serviceLocator.sites[site.name] = site
     }
@@ -27,13 +28,14 @@ function routy (serviceLocator) {
   
   serviceLocator.app.get('/sites/create', createSite) // get - Form to create a site
   serviceLocator.app.post('/sites/add', addSite)      // post - Actually creates the site
+  serviceLocator.app.get('/:site/people', people)
 
+
+  /* site creation */
   function createSite (req, res) {
-
     res.render('sites/create', {
       title: 'Create Site'
     })
-
   }
 
   function addSite (req, res) {
@@ -58,6 +60,7 @@ function routy (serviceLocator) {
 
   }
 
+  /* list all the sites (json) */
   function getAll (req, res) {
     postgresWookie({config: config}).sites.selectAll(function (err, data) {
       if (err) res.send('data: ', err)
@@ -67,7 +70,7 @@ function routy (serviceLocator) {
           var name = data.rows[i].name
           sites[name] = data.rows[i];
           sites[name].pages = {index: 'index.html'}
-          sites[name].sites = {people: 'people.html'}
+          sites[name].sites = {people: '/people/'}
         }
         res.send('data: ', sites)
       }
@@ -80,6 +83,19 @@ function routy (serviceLocator) {
     var site = serviceLocator.sites[siteName]
     return site;
   }
+
+  function people (req, res) {
+    var site = req.params.site;
+    if (serviceLocator.sites[site] !== undefined) {
+      res.render('people', {
+        title: site + ': people'
+      })  
+    }
+    else 
+      res.send('not found')
+
+  }
+
 
 }
 
