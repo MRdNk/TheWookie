@@ -13,7 +13,7 @@ function routy (serviceLocator) {
     for(var i=0; i < data.rows.length; i++) {
       serviceLocator.app.get('/' + data.rows[i].name, function (req, res) {
         // res.send('I found it!')
-        var site = fetchSiteByRequestReoute(req);
+        var site = fetchSiteByRequestRoute(req);
         res.render('site', {
           title: site.name
         })
@@ -29,7 +29,6 @@ function routy (serviceLocator) {
   serviceLocator.app.get('/sites/create', createSite) // get - Form to create a site
   serviceLocator.app.post('/sites/add', addSite)      // post - Actually creates the site
   serviceLocator.app.get('/:site/people', people)
-
 
   /* site creation */
   function createSite (req, res) {
@@ -52,7 +51,7 @@ function routy (serviceLocator) {
 
     serviceLocator.app.get('/' + site.name, function (req, res) {
       // res.send('I found a new one')
-      var site = fetchSiteByRequestReoute(req);
+      var site = fetchSiteByRequestRoute(req);
       res.render('site', {
         title: site.name
       })
@@ -69,8 +68,8 @@ function routy (serviceLocator) {
         for (var i = 0; i < data.rows.length; i++) {
           var name = data.rows[i].name
           sites[name] = data.rows[i];
-          sites[name].pages = {index: 'index.html'}
-          sites[name].sites = {people: '/people/'}
+          sites[name].pages = { index: 'index.html' }
+          sites[name].sites = { people: '/people/' }
         }
         res.send('data: ', sites)
       }
@@ -78,10 +77,10 @@ function routy (serviceLocator) {
     })
   }
 
-  function fetchSiteByRequestReoute(req) {
+  function fetchSiteByRequestRoute(req) {
     var siteName = req.route.path.split('/')[1]
     var site = serviceLocator.sites[siteName]
-    return site;
+    return site
   }
 
   function people (req, res) {
@@ -92,11 +91,9 @@ function routy (serviceLocator) {
       })  
     }
     else 
-      res.send('not found')
-
+      res.send(404, 'Cannot GET ' + req.url)
+      // res.send('not found')
   }
-
-
 }
 
 module.exports = routy;

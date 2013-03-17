@@ -1,5 +1,5 @@
 TheWookie
 =========
 
-Bit like a wiki but with a Wookie twist
+Bit like a wiki but hairier
 
